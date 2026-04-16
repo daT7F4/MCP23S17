@@ -773,6 +773,16 @@ uint16_t MCP23S17::getInterruptFlagRegister()
   return readReg16(MCP23x17_INTF_A);
 }
 
+uint8_t MCP23S17::getInterruptFlagRegister8(uint8_t port)
+{
+  if (port > 1)
+  {
+    _error = MCP23S17_PORT_ERROR;
+    return false;
+  }
+  return readReg(port == 0 ? MCP23x17_INTF_A : MCP23x17_INTF_B);
+}
+
 
 uint16_t MCP23S17::getInterruptCaptureRegister()
 {
