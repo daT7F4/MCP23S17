@@ -117,6 +117,7 @@ public:
 
   //       which pins caused the INT?
   uint16_t getInterruptFlagRegister();
+  uint8_t getInterruptFlagRegister8(uint8_t port);
   uint16_t getInterruptCaptureRegister();
   uint8_t  getInterruptCaptureRegister8(uint8_t port);
 
