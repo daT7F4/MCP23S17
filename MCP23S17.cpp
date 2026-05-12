@@ -979,8 +979,7 @@ bool MCP23S17::writeReg16(uint8_t reg, uint16_t value)
     //  _address already shifted
     _mySPI->transfer(MCP23S17_WRITE_REG | _address );
     _mySPI->transfer(reg);
-    _mySPI->transfer(value >> 8);
-    _mySPI->transfer(value & 0xFF);
+    _mySPI->transfer16(value);
     _mySPI->endTransaction();
   }
   else
@@ -1017,9 +1016,11 @@ uint16_t MCP23S17::readReg16(uint8_t reg)
     //  _address already shifted
     _mySPI->transfer(MCP23S17_READ_REG | _address );
     _mySPI->transfer(reg);
-    regA = _mySPI->transfer(0xFF);
-    regB = _mySPI->transfer(0xFF);
+    regA = _mySPI->transfer16(0xFFFF);
     _mySPI->endTransaction();
+    if(_reverse16ByteOrder)
+      return regA;
+    return regA << 8 | regA >> 8;
   }
   else
   {
